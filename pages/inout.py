@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import pymysql
 from datetime import datetime
 import time
+import csv
 
 # 사이드 바 숨기기
 hide_sidebar_style = """
@@ -26,82 +26,61 @@ st.session_state.search_text = current_search_text
 st.session_state.page = int(current_page)
 st.session_state.id = int(current_id)
 
-def get_connection():
-    conn = pymysql.connect(
-        host="127.0.0.1",
-        user="root",
-        password=st.secrets["SQL_PASSWORD"],
-        database="mystore",
-    )
-    return conn
-
-def select_list(conn):
-    read_sql = f"SELECT * FROM books WHERE id={st.session_state.id}"
-    with conn.cursor() as cursor:
-        cursor.execute(read_sql)
-        data = cursor.fetchall()
-        df = pd.DataFrame(data, columns=["id", "url", "img_url", "title", "authors", "publisher", "published_at", "review_cnt", "rating", "summary", "translation"])
+def load_data():
+    df = pd.read_csv("./data/books_metadata.csv")
     return df
 
-def select_inout(conn):
-    read_sql = f"SELECT * FROM books_inout_history WHERE id={st.session_state.id}"
-    with conn.cursor() as cursor:
-        cursor.execute(read_sql)
-        data = cursor.fetchall()
-        df = pd.DataFrame(data, columns=["id", "register_date", "modify_date", "in_count", "out_count", "description"])
-    return df
+def load_inout_data():
+    df_inout = pd.read_csv("./data/books_inout_history.csv")
+    return df_inout
 
-def sum_in_count(conn):
-    read_sql = f"SELECT sum(in_count) FROM books_inout_history WHERE id={st.session_state.id}"
-    with conn.cursor() as cursor:
-        cursor.execute(read_sql)
-        result = cursor.fetchone()  # 튜플로 한 행을 반환
+def select_list(df, id):
+    data = []
+    for i in range(len(df)):
+        if df.iloc[i][0] == id:
+            data.append(df.iloc[i])
 
-        if result and result[0] is not None:  # 값이 있을 경우에만 처리
-            data = int(result[0])  # 첫 번째 값만 정수로 변환
-        else:
-            data = 0  # 값이 없거나 NULL일 경우 0으로 설정
+    result = pd.DataFrame(data, columns=["id", "url", "img_url", "title", "authors", "publisher", "published_at", "review_cnt", "rating", "summary", "translation"])
+    return result
 
+
+def select_inout(df_inout, id):
+    data = []
+    for i in range(len(df_inout)):
+        if df_inout.iloc[i][0] == id:
+            data.append(df.iloc[i])
+
+    result = pd.DataFrame(data, columns=["id", "register_date", "modify_date", "in_count", "out_count", "description"])
+    return result
+
+def sum_in_count(df_inout, id):
+    data = 0
+    for i in range(len(df_inout)):
+        if df_inout.iloc[i][0] == id:
+            data += df_inout.iloc[i][3]
     return data
 
-def sum_out_count(conn):
-    read_sql = f"SELECT sum(out_count) FROM books_inout_history WHERE id={st.session_state.id}"
-    with conn.cursor() as cursor:
-        cursor.execute(read_sql)
-        result = cursor.fetchone()  # 튜플로 한 행을 반환
-
-        if result and result[0] is not None:  # 값이 있을 경우에만 처리
-            data = int(result[0])  # 첫 번째 값만 정수로 변환
-        else:
-            data = 0  # 값이 없거나 NULL일 경우 0으로 설정
-
+def sum_out_count(df_inout, id):
+    data = 0
+    for i in range(len(df_inout)):
+        if df_inout.iloc[i][0] == id:
+            data += df_inout.iloc[i][4]
     return data
 
-def insert_inout(conn, register_date, modify_date, in_count, out_count, description):
+def insert_inout(register_date, modify_date, in_count, out_count, description):
 
-    write_sql = """
-        INSERT IGNORE INTO books_inout_history(
-            id,
-            register_date,
-            modify_date,
-            in_count,
-            out_count,
-            description
-        )
-    VALUES (%s,%s,%s,%s,%s,%s)
-    """
     values = (st.session_state.id, register_date, modify_date, in_count, out_count, description)
 
-    with conn.cursor() as cursor:
-        cursor.execute(write_sql, values)
-        conn.commit()
+    # 기존 CSV 파일에 행 추가
+    with open("./data/books_inout_history.csv", mode='a', newline='', encoding='utf-8-sig') as file:
+        writer = csv.writer(file)
+        writer.writerow(values)
 
-
-# 데이터 베이스 연결
-conn = get_connection()
 
 # 변수 설정
-df_list = select_list(conn)
+df = load_data()
+df_list = select_list(df, st.session_state.id)
+df_inout = load_inout_data()
 url = "http://localhost:8501"
 
 
@@ -128,7 +107,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("현재 수량")
 with col2:
-    st.session_state.total_counter = sum_in_count(conn)-sum_out_count(conn)
+    st.session_state.total_counter = sum_in_count(df_inout, st.session_state.id)-sum_out_count(df_inout, st.session_state.id)
     st.markdown(st.session_state.total_counter)
 
 with st.form("form"):
@@ -155,7 +134,6 @@ if submitted:
     elif not description:
         st.error("설명을 입력해주세요!")
     else:
-        df_inout = select_inout(conn)
 
         # 오늘의 날짜/시간 가져오기
         now = datetime.now()
@@ -167,8 +145,8 @@ if submitted:
             register_date = df_inout.iloc[0][1]
             modify_date = str(now.strftime('%Y.%m.%d %H:%M:%S'))
 
-        insert_inout(conn, register_date, modify_date, in_count, out_count, description)
-        st.session_state.total_counter = sum_in_count(conn) - sum_out_count(conn)
+        insert_inout(register_date, modify_date, in_count, out_count, description)
+        st.session_state.total_counter = sum_in_count(df_inout, st.session_state.id)-sum_out_count(df_inout, st.session_state.id)
         st.write("성공!!!")
         time.sleep(3)  # 3초 대기
         st.rerun()

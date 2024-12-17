@@ -12,32 +12,6 @@ hide_sidebar_style = """
 """
 st.markdown(hide_sidebar_style, unsafe_allow_html=True)
 
-# @st.cache_data
-# def load_data():
-#     df = pd.read_csv("./data/books_metadata.csv")
-#     return df
-#
-# # 데이터 샘플
-# df = load_data()
-
-def get_connection():
-    conn = pymysql.connect(
-        host="127.0.0.1",
-        user="root",
-        password=st.secrets["SQL_PASSWORD"],
-        database="mystore",
-    )
-    return conn
-
-def select_list(conn):
-    read_sql = f"SELECT * FROM books WHERE id={st.session_state.id}"
-    with conn.cursor() as cursor:
-        cursor.execute(read_sql)
-        data = cursor.fetchall()
-        df = pd.DataFrame(data, columns=["id", "url", "img_url", "title", "authors", "publisher", "published_at", "review_cnt", "rating", "summary", "translation"])
-    return df
-
-
 # 파라미터 읽어오기
 current_type = st.query_params.to_dict()["type"]
 current_search_class = st.query_params.to_dict()["class"]
@@ -50,9 +24,22 @@ st.session_state.search_text = current_search_text
 st.session_state.page = int(current_page)
 st.session_state.id = int(current_id)
 
+@st.cache_data
+def load_data():
+    df = pd.read_csv("./data/books_metadata.csv")
+    return df
+
+def select_list(df, id):
+    data = []
+    for i in range(len(df)):
+        if df.iloc[i][0] == id:
+            data.append(df.iloc[i])
+    result = pd.DataFrame(data, columns=["id", "url", "img_url", "title", "authors", "publisher", "published_at", "review_cnt", "rating", "summary", "translation"])
+    return result
+
 # 변수 설정
-conn = get_connection()
-df = select_list(conn)
+df_load = load_data()
+df = select_list(df_load, st.session_state.id)
 url = "http://localhost:8501"
 
 
