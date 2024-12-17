@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 import time
-import csv
+
 
 # 사이드 바 숨기기
 hide_sidebar_style = """
@@ -224,7 +224,7 @@ st.write("")
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown(f'''
-            <a href="{url}/?type=all&class=&text=&page=1" target="_parent">
+            <a href="{url}/?type=all&class=&text=&page=1", target="_parent">
                 [홈]
             </a>
         ''', unsafe_allow_html=True)
