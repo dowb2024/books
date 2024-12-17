@@ -81,7 +81,7 @@ def insert_inout(register_date, modify_date, in_count, out_count, description):
 df = load_data()
 df_list = select_list(df, st.session_state.id)
 df_inout = load_inout_data()
-url = "http://rgt-books-store-1004.streamlit.app"
+url = "https://rgt-books-store-1004.streamlit.app"
 
 
 # 오늘의 날짜 가져오기
