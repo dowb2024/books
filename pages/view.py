@@ -40,7 +40,7 @@ def select_list(df, id):
 # 변수 설정
 df_load = load_data()
 df = select_list(df_load, st.session_state.id)
-url = "http://localhost:8501"
+url = "http://rgt-books-store-1004.streamlit.app"
 
 
 col1, col2 = st.columns(2)

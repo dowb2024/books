@@ -49,7 +49,7 @@ def insert_list(df, url, img_url, title, authors, publisher, published_at, summa
 # 변수 설정
 df = load_data()
 st.session_state.all_count = len(df)
-main_url = "http://localhost:8501"
+main_url = "http://rgt-books-store-1004.streamlit.app"
 
 
 # 오늘의 날짜 가져오기
