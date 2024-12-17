@@ -1,5 +1,4 @@
 matplotlib
 datetime
 pymysql
-csv
 time
