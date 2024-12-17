@@ -224,17 +224,17 @@ st.write("")
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown(f'''
-            <a href="{url}/?type=all&class=&text=&page=1" target="_parent">
-                [홈]
-            </a>
-        ''', unsafe_allow_html=True)
+        <a href="{url}/?type=all&class=&text=&page=1" target="_blank"> 
+            [홈]
+        </a>
+    ''', unsafe_allow_html=True)
     st.write("")
 with col2:
     st.markdown(f'''
-            <a href="{url}/write?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}" target="_parent">
-                [등록]
-            </a>
-        ''', unsafe_allow_html=True)
+        <a href="{url}/write?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}" target="_parent">
+            [등록]
+        </a>
+    ''', unsafe_allow_html=True)
     st.write("")
 with col3:
     st.markdown("")
