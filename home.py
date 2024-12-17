@@ -213,7 +213,7 @@ today = date.today()
 
 # 변수 설정
 items_per_page = 10
-url = "http://localhost:8501"
+url = "http://rgt-books-store-1004.streamlit.app"
 
 # 화면에 오늘 날짜 표시
 st.title("ADMIN OF RGT BOOKS STORE")
