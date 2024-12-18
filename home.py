@@ -180,7 +180,7 @@ def view_list(df, df_inout, items_per_page):
     with cols[11]:
         if (((st.session_state.page-1)//10)+1) * 10 <= total_pages:
             st.markdown(f'''
-                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={(((st.session_state.page-1)//10)*10)+11}" target="_self>
+                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={(((st.session_state.page-1)//10)*10)+11}" target="_self">
                             >>
                 </a>
             ''', unsafe_allow_html=True)
