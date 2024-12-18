@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import pymysql
 
 # 사용자 정의 CSS 삽입
 hide_sidebar_style = """
