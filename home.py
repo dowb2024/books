@@ -106,7 +106,7 @@ def view_list(df, df_inout, items_per_page):
             st.markdown(current_data.iloc[i][0])
         with col3:
             st.markdown(f'''
-                <a href="{url}/view?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}&id={current_data.iloc[i][0]}" target="_blank">
+                <a href="{url}/view?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}&id={current_data.iloc[i][0]}" target="_self">
                     {current_data.iloc[i][3]}
                 </a>
             ''', unsafe_allow_html=True)
@@ -115,13 +115,13 @@ def view_list(df, df_inout, items_per_page):
         with col5:
             if len(select_inout(df_inout, current_data.iloc[i][0])) != 0:
                 st.markdown(f'''
-                    <a href="{url}/inout?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}&id={current_data.iloc[i][0]}" target="_blank">
+                    <a href="{url}/inout?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}&id={current_data.iloc[i][0]}" target="_self">
                         {sum_in_count(df_inout, current_data.iloc[i][0]) - sum_out_count(df_inout, current_data.iloc[i][0])}
                     </a>
                 ''', unsafe_allow_html=True)
             else:
                 st.markdown(f'''
-                     <a href="{url}/inout?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}&id={current_data.iloc[i][0]}" target="_blank">
+                     <a href="{url}/inout?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}&id={current_data.iloc[i][0]}" target="_self">
                         0
                      </a>
                ''', unsafe_allow_html=True)
@@ -152,7 +152,7 @@ def view_list(df, df_inout, items_per_page):
         else:
             # 다른 페이지는 클릭 가능한 링크로 표시
             page_links.append(f'''
-                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={i}" target="_blank">
+                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={i}" target="_self">
                     {i}
                 </a>
             ''')
@@ -161,7 +161,7 @@ def view_list(df, df_inout, items_per_page):
     with cols[0]:
         if st.session_state.page > 10:
             st.markdown(f'''
-                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={((st.session_state.page-1)//10)*10}" target="_blank">
+                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={((st.session_state.page-1)//10)*10}" target="_self">
                             <<
                 </a>
             ''', unsafe_allow_html=True)
@@ -180,7 +180,7 @@ def view_list(df, df_inout, items_per_page):
     with cols[11]:
         if (((st.session_state.page-1)//10)+1) * 10 <= total_pages:
             st.markdown(f'''
-                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={(((st.session_state.page-1)//10)*10)+11}" target="_blank>
+                <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={(((st.session_state.page-1)//10)*10)+11}" target="_self>
                             >>
                 </a>
             ''', unsafe_allow_html=True)
@@ -231,7 +231,7 @@ with col1:
     st.write("")
 with col2:
     st.markdown(f'''
-        <a href="{url}/write?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}" target="_blank">
+        <a href="{url}/write?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}" target="_self">
             [등록]
         </a>
     ''', unsafe_allow_html=True)
