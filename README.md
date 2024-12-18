@@ -36,74 +36,8 @@
 
 * 반드시 ‘type=all&class=&text=&page=1’파라미터를 입력
 
-<데이터베이스 구조>
-Table books{
-id int(11) PK
-code_id int(11)
-url varchar(256) 
-img_url varchar(256) 
-title varchar(256) 
-authors varchar(45) 
-publisher varchar(45) 
-published_at varchar(45) 
-review_cnt float
-rating float
-summary varchar(2048) 
-translation varchar(2048)
-}
-
-Table books_inout_history{
-id int(11) PK 
-register_date timestamp PK
-modify_date timestamp PK
-in_count int(11)
-out_count int(11)
-description varchar(1024)
-}
-
-Table books_sales_history{
-id varchar(45) PK 
-registe_date timestamp
-modify_date timestamp
-outsale_count int(11)
-insale_count int(11)
-description varchar(1024)
-}
-
-Table books_review{
-r_id int(11) PK 
-id int(11)
-creator varchar(45)
-create_date timestamp
-modify_date timestamp 
-context varchar(1024)
-review_cnt float
-rating float 
-}
-
-
-Table code_group{
-code_group_id varchar(45) PK
-code_group_name varchar(45) PK 
-creator varchar(45) PK
-create_date timestamp PK
-modify_date timestamp 
-description varchar(1024)  
-}
-
-Table code_id{
-code_id varchar(45) PK
-code_name varchar(45)
-code_group_id varchar(45) PK
-code_value varchar(1024)
-description varchar(1024)
-}
-
-Ref : books.id < books_inout_history.id
-Ref : books.id < books_sales_history.id
-Ref : books.id < books_review.id
-Ref : books.code_id - code_id.code_id
-Ref : code_id.code_group_id > code_group.code_group_id
+<참고>
+web front-end 개발자 면접전 과제_이혜진.pdf
 
 
 
