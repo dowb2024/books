@@ -104,7 +104,7 @@ with col2:
     st.markdown(df.iloc[0][10])
 
 st.markdown(f'''
-    <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}" target="_parent">
+    <a href="{url}/?type={st.session_state.type}&class={st.session_state.search_class}&text={st.session_state.search_text}&page={st.session_state.page}" target="_self">
         목록
     </a>
 ''', unsafe_allow_html=True)

@@ -112,7 +112,7 @@ if submitted:
 
 print(st.session_state.all_count)
 st.markdown(f'''
-    <a href="{main_url}/?type=all&class=&text=&page={((st.session_state.all_count-1) // 10)+1}" target="_parent">
+    <a href="{main_url}/?type=all&class=&text=&page={((st.session_state.all_count-1) // 10)+1}" target="_self">
         목록
     </a>
 ''', unsafe_allow_html=True)
