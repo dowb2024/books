@@ -20,6 +20,22 @@
 
 2) 해당 부분 구현에 있어 이슈가 있을 시 목업 데이터를 만들어 서 사용 가능함.
 
+<도구>
+1) 언어 : Python, streamlit
+2) DB : MariaDB
+3) 배포 : streamlit, gitHub
+4) 도구 : PyCharm, MySQL Workbench 8.0 CE
+
+<구현>
+1. Python(streamlit) + MariaDB
+링크 : http://localhost:8501/?type=all&class=&text=&page=1
+
+2. Python(streamlit) + CSV
+외부 아이피의 부재로 CSV파일로 대체
+링크 : https://rgt-books-store-1004.streamlit.app/?type=all&class=&text=&page=1
+
+* 반드시 ‘type=all&class=&text=&page=1’파라미터를 입력
+
 <데이터베이스 구조>
 Table books{
 id int(11) PK
@@ -88,25 +104,6 @@ Ref : books.id < books_sales_history.id
 Ref : books.id < books_review.id
 Ref : books.code_id - code_id.code_id
 Ref : code_id.code_group_id > code_group.code_group_id
-
-
-<도구>
-1) 언어 : Python, streamlit
-2) DB : MariaDB
-3) 배포 : streamlit, gitHub
-4) 도구 : PyCharm, MySQL Workbench 8.0 CE
-
-<구현>
-1. Python(streamlit) + MariaDB
-링크 : http://localhost:8501/?type=all&class=&text=&page=1
-
-2. Python(streamlit) + CSV
-외부 아이피의 부재로 CSV파일로 대체
-링크 : https://rgt-books-store-1004.streamlit.app/?type=all&class=&text=&page=1
-
-* 반드시 ‘type=all&class=&text=&page=1’파라미터를 입력
-
-
 
 
 
