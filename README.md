@@ -28,11 +28,11 @@
 
 <구현>
 1. Python(streamlit) + MariaDB
-링크 : http://localhost:8501/?type=all&class=&text=&page=1
+- 링크 : http://localhost:8501/?type=all&class=&text=&page=1
 
 2. Python(streamlit) + CSV
-외부 아이피의 부재로 CSV파일로 대체
-링크 : https://rgt-books-store-1004.streamlit.app/?type=all&class=&text=&page=1
+- 외부 아이피의 부재로 CSV파일로 대체
+- 링크 : https://rgt-books-store-1004.streamlit.app/?type=all&class=&text=&page=1
 
 * 반드시 ‘type=all&class=&text=&page=1’파라미터를 입력
 
